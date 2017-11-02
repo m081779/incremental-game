@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	let moneyGained = 100;
+	let moneyGained = 100000;
 	let clicks = 0;
 	let clickValue = 1
 	

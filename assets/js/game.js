@@ -1,7 +1,7 @@
 $(document).ready(function () {
-	let moneyGained = 100;
+	let moneyGained = 0;
 	let clicks = 0;
-	let clickValue = 1
+	let clickValue = 1;
 	
 	//constructor function for money generating tiles
 	function Generator(obj) {
@@ -21,7 +21,7 @@ $(document).ready(function () {
 			setTimeout( () => {
 				moneyGained+=this.value;
 				writeMoneyText();
-				checkIfAvailable()					
+				checkIfAvailable();					
 				this.tick();
 			},this.timer/this.iterator);
 		}
@@ -55,7 +55,7 @@ $(document).ready(function () {
 						.addClass('highlight');
 
 			} else {
-				$(gen.id).removeClass('highlight')
+				$(gen.id).removeClass('highlight');
 			}
 		});
 	}
@@ -68,7 +68,7 @@ $(document).ready(function () {
 		timer: 1500,
 		cost: 100,
 		value: 20,
-		valueIncrease: 1.1,
+		valueIncrease: 1.1
 	});
 
 	let factory = new Generator({
@@ -77,7 +77,7 @@ $(document).ready(function () {
 		timer: 8000,
 		cost: 1500,
 		value: 5000,
-		valueIncrease: 1.1,
+		valueIncrease: 1.1
 	});
 
 	let warehouse = new Generator({
@@ -86,7 +86,7 @@ $(document).ready(function () {
 		timer: 15000,
 		cost: 10000,
 		value: 7500,
-		valueIncrease: 1.1,
+		valueIncrease: 1.1
 	});
 
 	//array of generators to loop through to write stats on startup
@@ -103,7 +103,7 @@ $(document).ready(function () {
 	//click event for button increments clicks variable, adds
 	//clickValue to moneyGained, increments clickValue, and writes
 	//values to the screen
-	$('#click').on('click', function (event) {
+	$('#click').on('click', function () {
 		clicks++;
 		moneyGained+=clickValue;
 		clickValue+=0.001;
@@ -111,7 +111,7 @@ $(document).ready(function () {
 	})
 
 
-	//.generators click event starts tick event for generator tiles
+	//.generators click event starts tick event for g;enerator tiles
 	//starts animations, increments cost, level, and value of generators
 	$('.generators').on('click', function () {
 		let current = generators[$(this).attr('id')];		
@@ -131,9 +131,8 @@ $(document).ready(function () {
 			current.progressAnimation();
 			if (current.level%10===0) {
 				current.timer*=0.9;
-				console.log("new Time: ", current.timer)
 			}
-			checkIfAvailable()
+			checkIfAvailable();
 		}
 		writeMoneyText();
 	});

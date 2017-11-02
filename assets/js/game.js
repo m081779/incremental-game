@@ -51,7 +51,7 @@ $(document).ready(function () {
 	function checkIfShow() {
 		generatorArr.find(gen => {
 			if (gen.cost<=moneyGained) {
-				$(gen.id).css('opacity', 1)
+				$(gen.id).fadeTo(2000, 1)
 			}
 		});
 	}

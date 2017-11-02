@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	let moneyGained = 0;
+	let moneyGained = 100;
 	let clicks = 0;
 	let clickValue = 1
 	
@@ -21,7 +21,7 @@ $(document).ready(function () {
 			setTimeout( () => {
 				moneyGained+=this.value;
 				writeMoneyText();
-				checkIfShow()					
+				checkIfAvailable()					
 				this.tick();
 			},this.timer/this.iterator);
 		}
@@ -29,9 +29,9 @@ $(document).ready(function () {
 		//writes stats to all of the generator tiles
 		this.writeStats = function() {
 			$(this.id).find('.name').text(this.name);
-			$(this.id).find('.cost').text('Cost: '+this.cost.toFixed(0));
-			$(this.id).find('.value').text('Value: '+this.value.toFixed(0));
-			$(this.id).find('.timer').text('Speed: '+this.timer);
+			$(this.id).find('.cost').text('Cost: $'+this.cost.toFixed(0));
+			$(this.id).find('.value').text('Value: $'+this.value.toFixed(0));
+			$(this.id).find('.level').text('Level: '+this.level);
 		}
 
 		//ties the speed of progress bar animation to the length of the tick timeout
@@ -42,36 +42,39 @@ $(document).ready(function () {
 
 	//writes the value of moneyGaines and the clicks to screen
 	function writeMoneyText() {
-		$('.money').text('Money earned: '+ moneyGained.toFixed(0));
+		$('.money').text('Money earned: $'+ moneyGained.toFixed(2));
 		$('.clicks').text('Number of clicks: '+ clicks);
-		$('.clickValue').text('Money per click: '+ clickValue.toFixed(0));
+		$('.clickValue').text('Money per click: $'+ clickValue.toFixed(2));
 	}
 
 	//tests when new generators can be shown
-	function checkIfShow() {
+	function checkIfAvailable() {
 		generatorArr.find(gen => {
 			if (gen.cost<=moneyGained) {
 				$(gen.id).fadeTo(2000, 1)
+						.addClass('highlight');
+
+			} else {
+				$(gen.id).removeClass('highlight')
 			}
 		});
 	}
-
 
 	//constructing new Generators
 
 	let farm = new Generator({
 		name: 'Farm',
 		id: '#farm',
-		timer: 800,
+		timer: 1500,
 		cost: 100,
-		value: 100,
+		value: 20,
 		valueIncrease: 1.1,
 	});
 
 	let factory = new Generator({
 		name: 'Factory',
 		id: '#factory',
-		timer: 3000,
+		timer: 8000,
 		cost: 1500,
 		value: 5000,
 		valueIncrease: 1.1,
@@ -103,7 +106,7 @@ $(document).ready(function () {
 	$('#click').on('click', function (event) {
 		clicks++;
 		moneyGained+=clickValue;
-		clickValue+=0.01;
+		clickValue+=0.001;
 		writeMoneyText();
 	})
 
@@ -111,9 +114,8 @@ $(document).ready(function () {
 	//.generators click event starts tick event for generator tiles
 	//starts animations, increments cost, level, and value of generators
 	$('.generators').on('click', function () {
-		let current = generators[$(this).attr('id')]		
+		let current = generators[$(this).attr('id')];		
 		if (moneyGained>=current.cost  && !current.timerStart) {
-			
 			moneyGained-=current.cost;
 			current.tick();
 			current.timerStart = true;
@@ -121,11 +123,17 @@ $(document).ready(function () {
 		}
 		if(moneyGained>=current.cost && current.timerStart) {
 			moneyGained-=current.cost;
-			current.cost*=1.5;
+			current.cost*=1.1;
 			current.level++;
+
 			current.value = current.value*current.valueIncrease;
 			current.writeStats();
 			current.progressAnimation();
+			if (current.level%10===0) {
+				current.timer*=0.9;
+				console.log("new Time: ", current.timer)
+			}
+			checkIfAvailable()
 		}
 		writeMoneyText();
 	});

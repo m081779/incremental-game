@@ -2,13 +2,17 @@
 			user-select: none;
 		}
 
+		.shadow {
+			box-shadow: 3px 3px 10px  rgba(0,0,0,0.3);
+		}
+
 		.info {
-			border: 1px solid black;
+			border: 3px solid black;
 			display: inline-block;
 			padding: 15px;
 		}
 		.generators {
-			border: 1px solid black;
+			border: 3px solid black;
 			display: inline-block;
 		    text-align: center;
     		line-height: 20px;
@@ -24,15 +28,15 @@
 		}
 
 		.progress {
-			background: green; /* For browsers that do not support gradients */
-			background: -webkit-linear-gradient(left, lightgreen , green); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(right, lightgreen, green); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(right, lightgreen, green); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(to right, lightgreen , green); /* Standard syntax */
+			background: green;
+			background: -webkit-linear-gradient(left, lightgreen , green);
+			background: -o-linear-gradient(right, lightgreen, green);
+			background: -moz-linear-gradient(right, lightgreen, green);
+			background: linear-gradient(to right, lightgreen , green);
 			height: 20px;
 			width: 0%;
 			margin: 0;
-			border-radius: 0;
+			border-radius: 0 5px 5px 0;
 		}
 
 		input[type=button] {
@@ -54,11 +58,22 @@
 			animation-timing-function: linear;	
 		}
 
+		.highlight {
+			background: tan;
+			border: 3px solid orangered;
+		}
+
 		@keyframes progressBar {
 			0% {
 				width: 0%;
+				
+			}
+
+			90% {
+				/*border-radius: 0 5px 5px 0;*/
 			}
 			100% {
 				width: 100%;
+				/*border-radius: 0;*/
 			}
 		}
